@@ -8,7 +8,7 @@ import { CollectionPoint } from '../model/collection-points.entity';
 })
 export class CollectionPointsService {
 
-  private apiUrl = 'http://localhost:3000/collectionPoints';  // Asegúrate de que esta URL esté correcta para tu db.json
+  private apiUrl = 'https://my-json-server.typicode.com/SoyValzzz/db.clean/collectionPoints';  
 
   constructor(private http: HttpClient) {}
 
