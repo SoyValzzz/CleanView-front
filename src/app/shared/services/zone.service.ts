@@ -5,7 +5,7 @@ import { Store } from '../../controlPanel/model/Store.entity';
 
 @Injectable({ providedIn: 'root' })
 export class ZoneService {
-  private apiUrl = 'http://localhost:3000/zones';
+  private apiUrl = 'https://my-json-server.typicode.com/SoyValzzz/db.clean/zones';
 
   constructor(private http: HttpClient) {}
 
