@@ -13,7 +13,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
-  private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = 'https://my-json-server.typicode.com/SoyValzzz/db.clean/users';
 
   constructor(private router: Router, private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class AuthService {
       map(users => {
         if (users.length > 0) {
           const user = users[0];
-          this.currentUser = user; // ✅ guardamos todo el objeto User
+          this.currentUser = user; 
           this.userSubject.next(this.currentUser);
           this.router.navigate(['/home']);
           return true;
