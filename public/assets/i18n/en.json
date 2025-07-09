@@ -74,23 +74,23 @@
   "kg": "Kg",
   "date": "Date",
 
-  "sustainableActions": {
-     "heroTitle": "Sustainable actions for a better future",
-    "heroSubtitle": "Join our mission to protect the planet through innovation and responsibility"
-    "title": "Reducing environmental impact is also a smart business strategy.",
-    "featuredTips": "Featured Tips of the Month",
-    "addTitle": "Add Sustainable Action",
-    "titlePlaceholder": "Title",
-    "descriptionPlaceholder": "Description",
-    "selectType": "Select Type",
-    "typeStorage": "Storage",
-    "typeOperational": "Operational Improvement",
-    "typeRegulation": "Regulation",
-    "saveButton": "Save",
-    "all": "All",
-    "searchPlaceholder": "Search sustainable actions",
-    "delete": "Delete"
+ "sustainableActions": {
+  "descriptionLabel": "Description",
+  "categoryLabel": "Category",
+  "filterBy": "Filter by",
+  "favorited": "Favorited",
+  "confirmDeletionTitle": "Confirm deletion",
+  "confirmDeletionMessage": "Are you sure you want to delete this sustainable action?",
+  "confirmDeletionSubmessage": "This action cannot be undone.",
+  "cancelButton": "Cancel",
+  "deleteActionButton": "Delete",
+  "result": {
+    "found": "{{count}} result found",
+    "found_plural": "{{count}} results found"
   },
+  "noMatchingActions": "No matching sustainable actions found.",
+  "tryOtherSearchTerms": "Try using different search terms."
+},
   "login": {
     "title": "Login",
     "emailPlaceholder": "Email",
