@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import {TranslateModule} from "@ngx-translate/core";
+import { User } from '../../model/user.entity';
 
 @Component({
   selector: 'app-register',
@@ -14,28 +15,34 @@ import {TranslateModule} from "@ngx-translate/core";
 })
 export class RegisterComponent {
   username = '';
-  email = '';  // <-- AÑADIDO
+  email = '';
   password = '';
-  role: 'admin' | 'empresa' = 'empresa';
+  role: 'PERSON' | 'COMPANY' = 'PERSON';
 
   registerError: string | null = null;
   constructor(private authService: AuthService, private router: Router) {}
 
   onRegister() {
     this.registerError = null;
-    this.authService.register({
+    const newUser: User = {
       username: this.username,
       email: this.email,
       password: this.password,
       role: this.role
-    }).subscribe({
-      next: (res) => {
+    };
 
+    console.log('[RegisterComponent] Objeto newUser antes de enviar a AuthService:', newUser);
+    console.log('[RegisterComponent] Rol seleccionado en el formulario:', newUser.role);
+
+    this.authService.register(newUser).subscribe({
+      next: (res) => {
         console.log('Registro exitoso', res);
+        alert('Registro exitoso. Ahora puedes iniciar sesión.');
+        this.router.navigate(['/login']);
       },
       error: (err) => {
-
-        this.registerError = err.error?.message || 'Error en el registro';
+        console.error('Error en el registro:', err);
+        this.registerError = err.message || 'Error en el registro';
       }
     });
   }

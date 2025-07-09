@@ -1,0 +1,363 @@
+.tip-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 162, 149, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tip-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #00A295, #00796B);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tip-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 162, 149, 0.15);
+}
+
+.tip-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.tip-category {
+  flex: 1;
+}
+
+.tip-type {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(0, 162, 149, 0.1) 0%, rgba(0, 162, 149, 0.05) 100%);
+  color: #00796B;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(0, 162, 149, 0.2);
+}
+
+.tip-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.tip-actions button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tip-actions button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tip-actions button:hover::before {
+  opacity: 0.1;
+}
+
+.favorite-button {
+  background: rgba(255, 107, 107, 0.1);
+  color: #FF6B6B;
+}
+
+.favorite-button.favorited {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ee5a5a 100%);
+  color: white;
+  transform: scale(1.05);
+}
+
+.favorite-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.delete-button {
+  background: rgba(220, 53, 69, 0.1);
+  color: #DC3545;
+}
+
+.delete-button:hover {
+  background: rgba(220, 53, 69, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.heart-icon,
+.delete-icon {
+  width: 18px;
+  height: 18px;
+  z-index: 1;
+  position: relative;
+}
+
+.tip-content {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.tip-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.tip-description {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.tip-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 162, 149, 0.1);
+}
+
+.favorite-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #00796B;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.favorite-indicator svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.delete-modal {
+  background: white;
+  border-radius: 20px;
+  padding: 0;
+  max-width: 440px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  padding: 32px 32px 24px;
+  text-align: center;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.warning-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fbbf24;
+}
+
+.warning-icon svg {
+  width: 32px;
+  height: 32px;
+  color: #f59e0b;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.modal-content {
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.modal-message {
+  font-size: 1rem;
+  color: #475569;
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+
+.modal-submessage {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.modal-actions {
+  padding: 24px 32px 32px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.cancel-button,
+.confirm-delete-button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.cancel-button {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.cancel-button:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.confirm-delete-button {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.confirm-delete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+.confirm-delete-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tip-card {
+    padding: 20px;
+  }
+
+  .tip-title {
+    font-size: 1.25rem;
+  }
+
+  .tip-description {
+    font-size: 0.9rem;
+  }
+
+  .delete-modal {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .modal-header,
+  .modal-content,
+  .modal-actions {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .confirm-delete-button {
+    width: 100%;
+  }
+}

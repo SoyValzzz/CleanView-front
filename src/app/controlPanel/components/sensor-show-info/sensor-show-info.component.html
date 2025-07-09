@@ -1,0 +1,22 @@
+<div #listTableSensors  class="sensor-list-container return-to-hide ">
+  <div class="listTable">
+    <h4>{{ "controlPanel.info-sensor" | translate }}</h4> <br>
+    <mat-icon class="close" (click)="cancelInfoSensor()">close</mat-icon>
+    <div  class="sensor-list-item-container" #sensorContainer >
+      <ng-container *ngIf="sensorsAux.length > 0; else noSensors">
+        <ul *ngFor="let sensor of sensorsAux"  class="sensor-list-item">
+          <h6> <strong>{{ "controlPanel.num-sensor" | translate }}:</strong> <br> {{sensor.serialNumber}}</h6>
+          <li> <span>{{ "controlPanel.unities" | translate }}: </span> <span>{{sensor.units}}</span> </li>
+          <li> <span>{{ "controlPanel.battery" | translate }}:</span> <span>{{sensor.battery}}</span> </li>
+          <li> <span>{{ "controlPanel.capacity" | translate }}:</span> <span>{{sensor.capacity}}</span> </li>
+          <li> <span>{{ "controlPanel.ubication" | translate }}:</span> <span>{{sensor.location}}</span> </li>
+        </ul>
+      </ng-container>
+      <ng-template #noSensors>
+        <p>No sensors available.</p>
+      </ng-template>
+    </div>
+    <mat-icon class="navigate" (click)="scrollPrev()">navigate_before</mat-icon>
+    <mat-icon class="navigate" (click)="scrollNext()">navigate_next</mat-icon>
+  </div>
+</div>

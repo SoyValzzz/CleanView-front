@@ -1,0 +1,249 @@
+.tips-list-section {
+  padding: 30px 20px;
+  max-width: 1400px; /* Asegura que la sección de la lista ocupe un buen ancho */
+  margin: 0 auto; /* Centrar la sección */
+}
+@media (min-width: 992px) {
+  .tips-list-section {
+    padding: 40px 60px;
+  }
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.search-and-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #ffffff; /* Añadido fondo blanco */
+  padding: 20px; /* Añadido padding para que no se pegue al borde */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+}
+
+@media (min-width: 768px) {
+  .search-and-filter-bar {
+    flex-direction: row; /* En fila para pantallas medianas/grandes */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan si no hay espacio */
+  }
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex-grow: 1; /* Permite que la barra de búsqueda crezca */
+  min-width: 250px; /* Asegura un ancho mínimo para la barra de búsqueda */
+  max-width: 100%; /* Asegura que no desborde en pantallas pequeñas */
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+}
+
+.search-input-wrapper input:focus {
+  border-color: #00A295;
+  box-shadow: 0 0 0 3px rgba(0, 162, 149, 0.2);
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #AAAAAA;
+  font-size: 1.2rem;
+}
+
+.filter-label { /* Estilos para el label de "FILTRAR POR:" */
+  font-weight: 600;
+  color: #333333;
+  margin-right: 10px;
+  white-space: nowrap; /* Evita que el texto se rompa */
+  /* Ajuste para alineación en mobile, si el label se va a una nueva línea */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 5px; /* Espacio debajo del label */
+}
+@media (min-width: 768px) {
+  .filter-label {
+    width: auto; /* Ancho automático en desktop */
+    text-align: left; /* Alineado a la izquierda en desktop */
+    margin-bottom: 0; /* Sin margen inferior en desktop */
+  }
+}
+
+.filter-buttons {
+  display: flex; /* Cambiado a flexbox para un control más flexible */
+  flex-wrap: wrap; /* Permitir que los botones se envuelvan */
+  gap: 10px;
+  justify-content: center; /* Centrar botones en pantallas pequeñas */
+  flex-grow: 1; /* Permite que el contenedor de botones crezca */
+}
+
+@media (min-width: 768px) {
+  .filter-buttons {
+    justify-content: flex-end; /* Alinear a la derecha en pantallas grandes */
+    flex-grow: unset; /* Para que el flex-grow no compita con el search-input */
+  }
+}
+
+.filter-buttons button {
+  border: 1px solid #00A295;
+  background-color: transparent;
+  color: #00A295;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+  white-space: nowrap; /* Evita que el texto del botón se rompa */
+}
+
+.filter-buttons button:hover {
+  background-color: rgba(0, 162, 149, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 162, 149, 0.1);
+}
+
+.filter-buttons button.active {
+  background-color: #00A295;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 162, 149, 0.2);
+}
+
+.results-info { /* Nuevo estilo para el mensaje de resultados */
+  margin-top: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 0 20px; /* Asegura el padding lateral consistente con la sección */
+}
+
+.tips-grid {
+  display: grid;
+  /* Ajuste crucial para 2 tarjetas por fila y que sean más anchas */
+  /* minmax(calc(50% - 12.5px), 1fr) hace que cada tarjeta ocupe casi el 50% del ancho,
+     considerando el gap de 25px para que haya 2 tarjetas. */
+  grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr));
+  gap: 25px; /* Espacio entre tarjetas */
+  margin-top: 30px;
+  justify-content: center; /* Centrar las tarjetas si solo hay una */
+}
+
+@media (min-width: 900px) { /* Ajuste para pantallas más grandes (ej: tablets horizontales, laptops) */
+  .tips-grid {
+    grid-template-columns: repeat(2, 1fr); /* Forzar 2 columnas exactas */
+  }
+}
+
+@media (min-width: 1200px) { /* Ajuste para pantallas de escritorio más amplias si se desea */
+  .tips-grid {
+    grid-template-columns: repeat(2, 1fr); /* Mantener 2 columnas, se harán más anchas */
+  }
+}
+
+/* Estilos para el nuevo estado vacío */
+.empty-state {
+  text-align: center;
+  color: #555555;
+  font-size: 1rem;
+  padding: 50px 0;
+  border: 1px dashed #E0E0E0;
+  border-radius: 8px;
+  margin-top: 30px;
+  background-color: #FDFDFD;
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.empty-state-icon {
+  color: #00A295; /* Color del icono */
+  margin-bottom: 15px;
+}
+
+.empty-state-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.empty-state-description {
+  font-size: 1rem;
+  color: #666;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 35px;
+  gap: 20px;
+}
+
+.pagination-controls button {
+  background-color: #00A295;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 162, 149, 0.2);
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #00796B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 162, 149, 0.3);
+}
+
+.pagination-controls button:disabled {
+  background-color: #DDE2E6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.pagination-info {
+  font-size: 1rem;
+  color: #555555;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}

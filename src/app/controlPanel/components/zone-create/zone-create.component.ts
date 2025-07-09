@@ -1,11 +1,15 @@
-import { Component, ElementRef, ViewChild, Output, EventEmitter, OnInit } from '@angular/core';
+import {Component, ElementRef, ViewChild, Output, EventEmitter, OnInit, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import {MatIcon} from "@angular/material/icon";
 import Swal from 'sweetalert2'
-import {Store} from "../../model/Store.entity";
-import { v4 as uuidv4 } from 'uuid';
-import { ZoneService } from '../../../shared/services/zone.service';
+import {Store} from "../../model/store.entity";
+import {Sensor} from "../../model/sensor.entity";
+import {Waste} from "../../model/waste.entity";
+import {ZoneApiService} from "../../services/zone-api.service";
+import {SensorApiService} from "../../services/sensor-api.service";
+import {WasteApiService} from "../../services/waste-api.service";
+import {GraphicService} from "../../services/graphic.service";
 
 @Component({
   selector: 'app-zone-create',
@@ -18,22 +22,40 @@ import { ZoneService } from '../../../shared/services/zone.service';
 // @Autor: Gabriel Gordon
 
 export class ZoneCreateComponent implements OnInit {
+  name = 'zone-create';
+
   @Output() zoneAdded = new EventEmitter<void>();
   @Output() createGraphic = new EventEmitter<void>();
-  numberOfStore = 0;
-  store: Store[] = []
 
-  constructor(private zoneService: ZoneService) {}
+  protected storeData !: Store;
+  protected sensorData !: Sensor;
+  protected waste !: Waste;
+
+  protected storesSource: Store[] = [];
+  protected sensorsSource: Sensor[] = [];
+  protected wastesSource: Waste[] = [];
+
+  private storeService = inject(ZoneApiService);
+  private sensorService = inject(SensorApiService);
+  private wasteService = inject(WasteApiService);
+
+  numberOfStore = 0;
+
+  constructor(
+    private graphicService: GraphicService
+
+  ) {
+    this.storeData = new Store({})
+    this.sensorData = new Sensor({})
+    this.waste = new Waste({})
+  }
 
   @ViewChild('formAddZone') formAddZoneRef!: ElementRef<HTMLFormElement>;
 
-  name = 'zone-create';
-
   ngOnInit() {
-    this.zoneService.getAll().subscribe((zones: Store[]) => {
-      this.store = zones;
-      this.numberOfStore = zones.length;
-    });
+    this.getAllStores();
+    this.getAllSensors();
+    this.getAllWastes();
   }
 
   addNewZone(){
@@ -58,22 +80,38 @@ export class ZoneCreateComponent implements OnInit {
     let ubicationZn = ubicationZnInput.value.trim();
 
     if (zone.length > 0 && ubicationZn.length > 0) {
+
+      // add random features to entity
       let randCl = "#" + Math.floor(Math.random() * 16777215).toString(16);
-      let id = uuidv4();
+      let id = Math.floor(Math.random() * 1423 + 1345);
+      this.storesSource.forEach(ss => {
+        while (id === ss.id){
+          id++;
+        }
+      })
       let num = this.numberOfStore + 1;
       this.numberOfStore++;
 
-      let newStore = new Store({id: id, name: zone, numberStore: num, amountSensor: 0,
-        percent: "0", sensor: [], color: randCl, ubication: ubicationZn});
-      // Guardar en el backend
-      this.zoneService.addZone(newStore).subscribe(() => {
-        this.zoneAdded.emit();
+      //create new class
+      let newStore = new Store({
+          id: id,
+          sensorIds: [],
+          name: zone,
+          numberStore: num,
+          amountSensor: 0,
+          fillPercent: "0%",
+          color: randCl,
+          ubication: ubicationZn
+        });
+
+      // save to api
+      this.storeService.createStore(newStore).subscribe({
+        next: () => {
+          nameZnInput.value = '';
+          ubicationZnInput.value = '';
+          form.classList.toggle('return-to-hide');
+        },
       });
-
-      nameZnInput.value = '';
-      ubicationZnInput.value = '';
-
-      form.classList.toggle('return-to-hide');
     }
     else{
       const Toast = Swal.mixin({
@@ -94,15 +132,53 @@ export class ZoneCreateComponent implements OnInit {
     }
   }
 
-  // Eliminar zona del backend
-  deleteZone(id: string) {
-    this.zoneService.deleteZone(id).subscribe(() => {
-      this.store = this.store.filter((z: Store) => z.id !== id);
+  async exportGraphic() {
+    const { value: op } = await Swal.fire({
+      title: "Select option of export",
+      input: "select",
+      inputOptions: {
+        File: {
+          pdf: "pdf",
+          excel: "excel",
+        },
+        Image: {
+          png: "png",
+        }
+      },
+      inputPlaceholder: "Select an option",
+      showCancelButton: true,
+    });
+    if (op) {
+      Swal.fire(`Downloading: ${op}`);
+      let exportType = op;
+
+      if (op === "png")
+        exportType = "image";
+
+      this.graphicService.triggerExport(exportType)
+    }
+
+  }
+
+
+  // Get all from api
+  private getAllStores() {
+    this.storeService.getAll().subscribe((stores: Array<Store>) => {
+      this.storesSource = stores;
     });
   }
 
-  onCreateGraphic() {
-    this.createGraphic.emit();
+  private getAllSensors() {
+    this.sensorService.getAll().subscribe((sensors: Array<Sensor>) => {
+      this.sensorsSource = sensors;
+    });
   }
+
+  private getAllWastes() {
+    this.wasteService.getAll().subscribe((wastes: Array<Waste>) => {
+      this.wastesSource = wastes;
+    });
+  }
+
 }
 

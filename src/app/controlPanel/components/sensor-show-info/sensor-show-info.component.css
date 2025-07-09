@@ -1,0 +1,105 @@
+
+.sensor-list-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100000;
+}
+
+.listTable{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  width: 50rem;
+  text-align: center;
+  animation: animation-panels 0.5s ease-in-out;
+
+  .form-group{
+    align-items: center;
+    height: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+
+  .close{
+    position: absolute;
+    top: 5%;
+    right: 2.5%;
+    cursor: pointer;
+    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .sensor-list-item-container{
+    display: flex;
+    margin: 10px 0;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+  }
+
+  ul{
+    scroll-snap-align: start;
+    background: #D9F2EF;
+    border-radius: 10px;
+    list-style: none;
+    padding: 15px;
+    margin: 0 20px;
+  }
+}
+
+@keyframes animation-panels {
+  0%{
+    transform: scale(0)
+  }
+  100%{
+    transform: scale(1)
+  }
+}
+
+.bring-to-front{
+  display: block;
+}
+
+.add-sensor-button{
+  background: #00A295;
+  color: #ffffff;
+  border: none;
+  width: 124px;
+  height: 30px;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.return-to-hide{
+  display: none;
+}
+
+
+.sensor-list-item li{
+  display: flex;
+  width: 12rem;
+  justify-content: space-around;
+
+  span{
+    width: 100%;
+    justify-content: start;
+    text-align: start;
+  }
+}
+
+.navigate{
+   cursor: pointer;
+}
+

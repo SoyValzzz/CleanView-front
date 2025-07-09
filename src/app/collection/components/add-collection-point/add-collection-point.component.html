@@ -2,39 +2,49 @@
   <h2>{{ 'newPointTitle' | translate }}</h2>
   <form [formGroup]="addPointForm" (ngSubmit)="onSubmit()">
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'nameLabel' | translate }}</mat-label>
-      <input matInput formControlName="name">
-    </mat-form-field>
+    <div class="form-map-container">
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'scheduleLabel' | translate }}</mat-label>
-      <input matInput formControlName="schedule">
-    </mat-form-field>
+      <div class="form-column">
+        <!-- Todos los campos dentro de esta columna -->
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'nameLabel' | translate }}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'phoneLabel' | translate }}</mat-label>
-      <input matInput formControlName="phone">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'scheduleLabel' | translate }}</mat-label>
+          <input matInput formControlName="schedule" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'materialsLabel' | translate }}</mat-label>
-      <input matInput formControlName="materials">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'phoneLabel' | translate }}</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'latitudeLabel' | translate }}</mat-label>
-      <input matInput type="number" formControlName="lat">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'materialsLabel' | translate }}</mat-label>
+          <input matInput formControlName="materials" />
+        </mat-form-field>
+      </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'longitudeLabel' | translate }}</mat-label>
-      <input matInput type="number" formControlName="lng">
-    </mat-form-field>
+      <div class="map-column">
+        <label><strong>{{ 'selectLocationLabel' | translate }}</strong></label>
+        <div id="modal-map"></div>
+        <p class="map-coords">
+          {{ 'latitudeLabel' | translate }}: {{ addPointForm.get('lat')?.value }},
+          {{ 'longitudeLabel' | translate }}: {{ addPointForm.get('lng')?.value }}
+        </p>
+      </div>
+
+    </div>
 
     <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="onCancel()">{{ 'cancelButton' | translate }}</button>
-      <button mat-flat-button color="primary" type="submit">{{ 'saveButton' | translate }}</button>
+      <button mat-button type="button" (click)="onCancel()">
+        {{ 'cancelButton' | translate }}
+      </button>
+      <button mat-flat-button color="primary" type="submit">
+        {{ 'saveButton' | translate }}
+      </button>
     </mat-dialog-actions>
   </form>
 </div>

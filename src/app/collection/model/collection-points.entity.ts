@@ -1,5 +1,5 @@
 export class CollectionPoint {
-  id: number;
+  id: string;
   name: string;
   schedule: string;
   phone: string;
@@ -8,7 +8,7 @@ export class CollectionPoint {
   lng: number;
 
   constructor() {
-    this.id = 0;
+    this.id = '';  // inicializa como string vacío
     this.name = '';
     this.schedule = '';
     this.phone = '';

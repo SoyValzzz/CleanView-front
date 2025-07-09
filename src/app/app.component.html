@@ -34,24 +34,29 @@
 
       <span class="mat-spacer"></span>
 
+      <!-- *** ¡CAMBIO CLAVE: Lógica para mostrar/ocultar botones de auth/logout! *** -->
+      <ng-container *ngIf="!authService.isLoggedIn(); else loggedInButtons">
+        <button mat-button color="accent" (click)="onSignIn()">
+          {{ 'auth.signIn' | translate }}
+        </button>
+        <button mat-button color="primary" (click)="onSignUp()">
+          {{ 'auth.signUp' | translate }}
+        </button>
+      </ng-container>
 
-      <button *ngIf="showAuthButtons" mat-button color="accent" (click)="onSignIn()">
-        {{ 'auth.signIn' | translate }}
-      </button>
-      <button *ngIf="showAuthButtons" mat-button color="primary" (click)="onSignUp()">
-        {{ 'auth.signUp' | translate }}
-      </button>
+      <ng-template #loggedInButtons>
+        <mat-icon class="user-icon" style="color: white;">account_circle</mat-icon>
+        <button mat-button color="warn" (click)="onLogout()">
+          {{ 'auth.logout' | translate }}
+        </button>
+      </ng-template>
 
-
-      <mat-icon *ngIf="showUserIcon" class="user-icon" style="color: white;">account_circle</mat-icon>
 
       <app-language-switcher style="color: white;"></app-language-switcher>
     </mat-toolbar>
-
 
     <div class="content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

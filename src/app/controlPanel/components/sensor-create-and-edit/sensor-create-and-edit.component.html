@@ -4,7 +4,9 @@
     <mat-icon (click)="cancelAddNewSensor()">close</mat-icon>
     <div class="form-group">
       <label for="type-waste">{{ "controlPanel.type-waste" | translate }}</label>
-      <input id="type-waste" type="text" class="name-zone">
+      <select id="type-waste" class="type-waste" [(ngModel)]="selectedType">
+        <option *ngFor="let type of wasteTypes" [value]="type">{{ type | titlecase }}</option>
+      </select>
     </div>
     <div class="form-group">
         <label for="ubication">{{ "controlPanel.ubication" | translate }}</label>

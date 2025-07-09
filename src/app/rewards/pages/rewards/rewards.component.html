@@ -1,0 +1,60 @@
+<section class="rewards-container">
+  <div class="rewards-content">
+    <p>!Recuerda! por cada kilo de reciclaje estarás ganando 40 CleanPoints</p>
+
+    <h3>Recompensas Disponibles</h3>
+
+    <div class="reward-list">
+      @for (reward of rewards; track reward.id) { @if (reward.codesAvailable >
+      0) {
+      <mat-card class="reward-card">
+        <mat-card-header class="reward-header">
+          <img
+            mat-card-avatar
+            class="reward-img"
+            [src]="reward.imageUrl"
+            alt="Reward Image"
+          />
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ reward.description }}</p>
+        </mat-card-content>
+        <mat-card-footer class="reward-footer">
+          <button
+            class="button"
+            mat-button
+            [disabled]="totalPoints < reward.pointsRequired"
+            (click)="openConfirmationDialog(reward)"
+          >
+            Canjear {{ reward.pointsRequired }}
+          </button>
+        </mat-card-footer>
+      </mat-card>
+      } }
+    </div>
+  </div>
+  <aside class="points-summary">
+    <div class="points-summary-content">
+      <h3 class="points-title">CleanPoints Acumulados</h3>
+      <div class="points-display">
+        {{ totalPoints }}
+      </div>
+    </div>
+
+    <div class="activity-container">
+      <h3 class="last-activities">Últimas Actividades</h3>
+      <ul class="activity-list">
+        @for (activity of activities; track activity.id) {
+        <li class="activity-item">
+          <div class="activity-decorate"></div>
+          <div class="activity-content">
+            <span class="activity-description">{{ activity.description }}</span>
+            <span class="activity-points"> +{{ activity.points }} </span>
+          </div>
+        </li>
+        }
+      </ul>
+      <button mat-button (click)="viewAllActivities()">Ver Todas las actividades</button>
+    </div>
+  </aside>
+</section>

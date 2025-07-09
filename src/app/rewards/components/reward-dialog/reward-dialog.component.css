@@ -1,0 +1,33 @@
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.text-description {
+  text-align: center;
+}
+
+
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  padding-block: 1rem;
+}
+
+
+.btn-charge {
+  background-color: rgb(0, 162, 149);
+  color: white;
+  width: 60%;
+}
+
+
+.code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -42,6 +42,18 @@ mat-card-header{
 
 .store-content{
   padding: 10px;
+  overflow-y: auto;
+  max-height: 350px;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
 }
 
 .store-content-item {

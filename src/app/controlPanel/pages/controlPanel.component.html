@@ -1,121 +1,33 @@
+<script src="../model/store.entity.ts"></script>
 <div class=" controlPanelBox w-full flex flex-col items-center justify-center min-h-screen bg-white">
-  <app-graphic-create *ngIf="showGraphic"></app-graphic-create>
+  <app-graphic-create></app-graphic-create>
   <div class="zones-container">
-    <app-zone-create (zoneAdded)="onZoneAdded()" (createGraphic)="toggleGraphic()"></app-zone-create>
-    <div class="zones-list-container" id="zoneTableBody">
+    <app-zone-create></app-zone-create>
+    <div class = "zones-list-container" id="zoneTableBody">
       <div class="zones-list-container-header ">
         <ul>
-          <li>Zonas</li>
-          <li>Ubicacion</li>
-          <li>Sensores</li>
-          <li>Accion</li>
+          <li>{{ "controlPanel.zone" | translate }} <mat-icon class="delete-icon" (click)="deleteStore()">delete</mat-icon></li>
+          <li>{{ "controlPanel.ubication" | translate }}</li>
+          <li>{{ "controlPanel.sensor" | translate }}</li>
+          <li>{{ "controlPanel.action" | translate }}</li>
         </ul>
       </div>
-      <div class="zone-item-new" *ngFor="let store of stores">
+      <div class="zone-item-new" *ngFor="let store of storesSource">
         <ul>
           <li class="zon-name">{{ store.name }}</li>
           <li class="zon-ubi">{{ store.ubication }}</li>
           <li class="zon-sensor-num">{{ store.amountSensor }}</li>
           <li class="zon-button">
-            <button type="button" class="zon-button-lock" role="button" (click)="showZoneDetails(store)">Ver</button>
-            <button type="button" class="zon-button-add" role="button" (click)="openAddSensorModal(store)">Añadir sensor</button>
-            <button type="button" class="zon-button-delete" role="button" (click)="openDeleteSensorModal(store)">Borrar sensor</button>
+            <button type="button" class="zon-button-lock" role="button" (click)="showInfoSensor(store.name)">{{ "controlPanel.see" | translate }}</button>
+            <button type="button" class="zon-button-add" role="button" (click)="addNewSensor(store.name)">{{ "controlPanel.add" | translate }}</button>
+            <button type="button" class="zon-button-delete" role="button" (click)="deleteSensor(store.name)">{{ "controlPanel.delete" | translate }}</button>
           </li>
         </ul>
       </div>
-    </div>
-    <app-sensor-create-and-edit></app-sensor-create-and-edit>
-  </div>
-
-  <!-- Modal de eliminar sensor -->
-  <div class="modal" *ngIf="showDeleteSensorModal">
-    <div class="modal-content modal-details">
-      <span class="close" (click)="closeDeleteSensorModal()">&times;</span>
-      <h2 class="modal-title">Eliminar sensor</h2>
-      <h3 class="modal-section">Sensores Instalados</h3>
-      <table class="modal-table">
-        <thead>
-          <tr>
-            <th>ID Sensor</th>
-            <th>Tipo</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sensor of selectedZone?.sensor">
-            <td>{{ sensor.id }}</td>
-            <td>{{ sensor.typeSensor }}</td>
-            <td>
-              <button (click)="deleteSensor(sensor.id)" style="background: none; border: none; cursor: pointer;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="#222" d="M9.5 3a2.5 2.5 0 0 1 5 0H19a1 1 0 1 1 0 2h-1v14a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5H5a1 1 0 1 1 0-2h4.5Zm5.5 2H9V3a.5.5 0 0 1 1 0v2h4V3a.5.5 0 0 1 1 0v2Zm-8 2v14a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V5H7Z"/></svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Modal de detalles de zona -->
-  <div class="modal" *ngIf="selectedZone && !showDeleteSensorModal">
-    <div class="modal-content modal-details">
-      <span class="close" (click)="closeZoneDetails()">&times;</span>
-      <h2 class="modal-title">{{ selectedZone.name }}</h2>
-      <p class="modal-sub"><strong>Ubicación:</strong> {{ selectedZone.ubication }}</p>
-      <h3 class="modal-section">Sensores Instalados</h3>
-      <table class="modal-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Tipo</th>
-            <th>Capacidad</th>
-            <th>Nivel Actual</th>
-            <th>%</th>
-            <th>Recojo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sensor of selectedZone.sensor">
-            <td>{{ sensor.id }}</td>
-            <td>{{ sensor.typeSensor }}</td>
-            <td>{{ sensor.capacidad || '' }}</td>
-            <td>{{ sensor.nivelActual || '' }}</td>
-            <td>{{ sensor.porcentaje || '' }}</td>
-            <td>{{ sensor.recojo || '' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Modal de añadir sensor -->
-  <div class="modal" *ngIf="showAddSensorModal">
-    <div class="modal-content modal-details">
-      <span class="close" (click)="closeAddSensorModal()">&times;</span>
-      <h2 class="modal-title">Añadir sensor</h2>
-      <form (ngSubmit)="saveSensor()" class="sensor-form-custom">
-        <label class="sensor-label">Tipo de residuo:</label>
-        <select class="sensor-input" [(ngModel)]="sensorForm.typeSensor" name="typeSensor" required>
-          <option value="">Selecciona un tipo</option>
-          <option value="Plástico">Plástico</option>
-          <option value="Orgánico">Orgánico</option>
-          <option value="Vidrio">Vidrio</option>
-          <option value="Papel">Papel</option>
-          <option value="Metal">Metal</option>
-          <option value="Otro">Otro</option>
-        </select>
-        <label class="sensor-label">Capacidad máxima (Kg)</label>
-        <input class="sensor-input" type="number" placeholder="Capacidad máxima" [(ngModel)]="sensorForm.capacidad" name="capacidad" required />
-        <label class="sensor-label">Nivel Actual</label>
-        <input class="sensor-input" type="text" placeholder="Nivel Actual" [(ngModel)]="sensorForm.nivelActual" name="nivelActual" required />
-        <label class="sensor-label">% (porcentaje)</label>
-        <input class="sensor-input" type="text" placeholder="%" [(ngModel)]="sensorForm.porcentaje" name="porcentaje" required />
-        <label class="sensor-label">Recojo</label>
-        <input class="sensor-input" type="text" placeholder="Recojo" [(ngModel)]="sensorForm.recojo" name="recojo" />
-        <label class="sensor-label">ID del Sensor</label>
-        <input class="sensor-input" type="text" placeholder="ID del Sensor" [(ngModel)]="sensorForm.id" name="id" required />
-        <button type="submit" class="sensor-btn-registrar">Registrar</button>
-      </form>
+      <app-sensor-create-and-edit></app-sensor-create-and-edit>
+      <app-sensor-show-info></app-sensor-show-info>
+      <app-sensor-delete></app-sensor-delete>
+      <app-store-delete></app-store-delete>
     </div>
   </div>
 </div>

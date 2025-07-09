@@ -13,7 +13,7 @@ import {TranslateModule} from "@ngx-translate/core";
 })
 export class CollectionCardComponent {
   @Input() point!: CollectionPoint;
-  @Output() pointDeleted = new EventEmitter<number>();
+  @Output() pointDeleted = new EventEmitter<string>();
 
   selectedPoint: CollectionPoint | null = null;
   showModal = false;
@@ -32,8 +32,9 @@ export class CollectionCardComponent {
     document.body.classList.remove('modal-open');
   }
 
-  deletePoint(id: number) {
+  deletePoint(id: string) {
     if (confirm('¿Estás seguro de que deseas eliminar este punto de recolección?')) {
+      console.log('Intentando borrar punto con id:', id);
       this.collectionPointsService.deleteCollectionPoint(id).subscribe({
         next: () => {
           this.pointDeleted.emit(id);
@@ -45,4 +46,5 @@ export class CollectionCardComponent {
       });
     }
   }
+
 }

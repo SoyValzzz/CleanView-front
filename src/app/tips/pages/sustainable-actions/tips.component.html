@@ -1,0 +1,29 @@
+<div class="main-container">
+  <div class="page-section-container hero-wrapper-container">
+    <header class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ "sustainableActions.heroTitle" | translate }}</h1>
+        <p class="hero-subtitle">{{ "sustainableActions.heroSubtitle" | translate }}</p>
+        <button id="openModalButton" class="add-action-button" (click)="openModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          {{ 'sustainableActions.addActionButton' | translate }}
+        </button>
+      </div>
+      <div class="hero-image-wrapper">
+        <img class="hero-image" src="https://reciclamas.com.mx/wp-content/uploads/2023/10/8-1-1.jpg" [alt]="'sustainableActions.heroImageAlt' | translate">
+      </div>
+    </header>
+  </div>
+
+  <div class="page-section-container">
+    <app-tips-list [actions]="actions"
+                   (favoriteChanged)="onFavoriteChanged()"></app-tips-list>
+  </div>
+
+  <app-actions-create-and-edit
+    *ngIf="showModal && newAction"
+    [action]="newAction"
+    (save)="onSaveAction($event)"
+    (close)="onCloseModal()">
+  </app-actions-create-and-edit>
+</div>

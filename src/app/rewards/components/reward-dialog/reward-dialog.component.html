@@ -1,0 +1,27 @@
+<button mat-dialog-close mat-icon-button class="close-button">
+  <mat-icon>close</mat-icon>
+</button>
+<div style="padding: 3rem">
+  <h1 mat-dialog-title style="font-weight: 600">
+    @if(code) { Se ha canjeado con éxito } @else { ¿Está seguro de canjear? }
+  </h1>
+  <div mat-dialog-content>
+    <p class="text-description">
+      @if(code) { Código para usar } @else { Le quedarían
+      {{ data.remainingPoints }} CleanPoints. }
+    </p>
+
+    @if (code) {
+    <div class="code-container">
+      <span class="code">{{ code }}</span>
+    </div>
+    }
+  </div>
+  @if(!code) {
+  <footer mat-dialog-actions class="dialog-footer">
+    <button mat-button class="btn-charge" (click)="chargeReward()">
+      Canjear
+    </button>
+  </footer>
+  }
+</div>

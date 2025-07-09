@@ -3,13 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import {TranslateModule} from "@ngx-translate/core";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [FormsModule, TranslateModule]
+  imports: [FormsModule, TranslateModule, CommonModule]
 })
 export class LoginComponent {
   email: string = '';
@@ -19,9 +20,15 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.authService.login(this.email, this.password).subscribe(success => {
-      if (!success) {
-        this.loginError = 'Email or password incorrect.';
+    this.loginError = '';
+    this.authService.login(this.email, this.password).subscribe({
+      next: (success) => {
+        if (!success) {
+          this.loginError = 'Email or password incorrect.';
+        }
+      },
+      error: (err) => {
+        this.loginError = err.message || 'Login failed. Please try again.';
       }
     });
   }

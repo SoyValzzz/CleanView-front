@@ -1,0 +1,28 @@
+<div #formDeleteSensor class="delete-sensor-form-container return-to-hide ">
+  <form class="delete-sensor-form">
+    <h4>{{ "controlPanel.delete-sensor" | translate }}</h4> <br>
+    <div  class="sensor-list-item-container" #sensorContainer >
+      <ng-container *ngIf="sensorAux.length > 0; else noSensors">
+        <ul *ngFor="let sensor of sensorAux"  class="sensor-list-item" >
+          <h6> <strong> {{ 'controlPanel.num-sensor' | translate}}:</strong> {{sensor.serialNumber}}</h6>
+          <li> {{ 'controlPanel.ubication' | translate }}: {{sensor.location}} </li>
+          <li> {{ 'controlPanel.percentage' | translate }}: {{sensor.percentage}} </li>
+        </ul>
+      </ng-container>
+      <ng-template #noSensors>
+        <p>No sensors available.</p>
+      </ng-template>
+    </div>
+    <mat-icon class="navigate" (click)="scrollPrev()">navigate_before</mat-icon>
+    <mat-icon class="navigate" (click)="scrollNext()">navigate_next</mat-icon>
+    <mat-icon class="close" (click)="cancelDeleteSensor()">close</mat-icon>
+    <h6>Choose a Sensor</h6>
+    <div class="form-group">
+      <label for="num-sensor">{{ "controlPanel.num-sensor" | translate }}</label>
+      <input id="num-sensor" type="text" class="num-sensor">
+    </div>
+    <br>
+    <button type="button" class="delete-sensor-button" role="button" (click)="deleteSensor()">{{ "controlPanel.register" | translate }}</button>
+    <br>
+  </form>
+</div>

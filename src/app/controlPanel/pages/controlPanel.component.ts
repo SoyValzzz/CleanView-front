@@ -1,13 +1,21 @@
-import {AfterViewInit, Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild, OnInit, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import {GraphicCreateComponent} from "../components/graphic-create/graphic-create.component";
 import {SensorCreateAndEditComponent} from "../components/sensor-create-and-edit/sensor-create-and-edit.component";
 import {ZoneCreateComponent} from "../components/zone-create/zone-create.component";
-import {Store} from "../model/Store.entity";
-import { ZoneService } from '../../shared/services/zone.service';
-import { v4 as uuidv4 } from 'uuid';
+import {Store} from "../model/store.entity";
+import {Sensor} from "../model/sensor.entity";
+import {Waste} from "../model/waste.entity";
+import {ZoneApiService} from "../services/zone-api.service";
+import {SensorApiService} from "../services/sensor-api.service";
+import {WasteApiService} from "../services/waste-api.service";
+import {SensorShowInfoComponent} from "../components/sensor-show-info/sensor-show-info.component";
+import {SensorDeleteComponent} from "../components/sensor-delete/sensor-delete.component";
+import {MatIcon} from "@angular/material/icon";
+import {StoreDeleteComponent} from "../components/store-delete/store-delete.component";
+import {AuthService} from "../../users/services/auth.service";
 
 @Component({
   selector: 'app-controlPanel',
@@ -18,7 +26,11 @@ import { v4 as uuidv4 } from 'uuid';
     FormsModule,
     GraphicCreateComponent,
     SensorCreateAndEditComponent,
-    ZoneCreateComponent
+    ZoneCreateComponent,
+    SensorShowInfoComponent,
+    SensorDeleteComponent,
+    MatIcon,
+    StoreDeleteComponent,
   ],
   templateUrl: './controlPanel.component.html',
   styleUrls: ['./controlPanel.component.css']
@@ -27,128 +39,76 @@ import { v4 as uuidv4 } from 'uuid';
 // @Autor: Gabriel Gordon
 // This component works with the manage of all the waste that company generate
 
-export class ControlPanelComponent implements OnInit, AfterViewInit{
-
-  @ViewChild(SensorCreateAndEditComponent) sensorCreateAndEditComponent!: SensorCreateAndEditComponent;
-  @ViewChild(ZoneCreateComponent) zoneCreateComponent!: ZoneCreateComponent;
-
-  stores: Store[] = [];
-  selectedZone: Store | null = null;
-  showAddSensorModal: boolean = false;
-  showDeleteSensorModal: boolean = false;
-  sensorForm = {
-    id: '',
-    numberSensor: 0,
-    wasteDetected: [],
-    typeSensor: '',
-    sensorUbication: '',
-    status: '',
-    batteryLevel: 0,
-    lastReadingDate: '',
-    unities: '',
-    capacidad: '',
-    nivelActual: '',
-    porcentaje: '',
-    recojo: ''
-  };
-
-  showGraphic = true;
-
-  constructor(private zoneService: ZoneService) {}
-
-  ngOnInit() {
-    this.loadZones();
-  }
-
-  ngAfterViewInit() {}
-
+export class ControlPanelComponent implements AfterViewInit, OnInit{
   name = 'controlPanel';
 
-  addNewSensor(e: string){
+  currentUserId: number | null = null;
+
+  @ViewChild(SensorCreateAndEditComponent) sensorCreateAndEditComponent!: SensorCreateAndEditComponent;
+  @ViewChild(SensorShowInfoComponent) sensorShowInfoComponent!: SensorShowInfoComponent;
+  @ViewChild(SensorDeleteComponent) sensorDeleteComponent!: SensorDeleteComponent;
+  @ViewChild(ZoneCreateComponent) zoneCreateComponent!: ZoneCreateComponent;
+  @ViewChild(StoreDeleteComponent) storeDeleteComponent!: StoreDeleteComponent;
+
+  protected storeData !: Store;
+  protected sensorData !: Sensor;
+  protected waste !: Waste;
+
+  protected storesSource: Store[] = [];
+  protected sensorsSource: Sensor[] = [];
+  protected wastesSource: Waste[] = [];
+
+  private storeService = inject(ZoneApiService);
+  private sensorService = inject(SensorApiService);
+  private wasteService = inject(WasteApiService);
+
+  constructor(private authService: AuthService) {
+    this.storeData = new Store({})
+    this.sensorData = new Sensor({})
+    this.waste = new Waste({})
+  }
+
+  ngAfterViewInit() {
+  }
+
+  ngOnInit() {
+    this.currentUserId = this.authService.currentUserValue?.id || null;
+    this.storeService.stores$.subscribe(stores => {
+      this.storesSource = stores;
+    });
+    this.getAllSensors();
+    this.getAllWastes();
+  }
+
+  addNewSensor( e: string){
     this.sensorCreateAndEditComponent.getStoreNameFromFthr(e);
   };
 
-  loadZones() {
-    this.zoneService.getAll().subscribe((zones: Store[]) => {
-      this.stores = zones;
+  showInfoSensor(e: string){
+    this.sensorShowInfoComponent.getStoreNameFromFthr(e);
+  };
+
+  deleteSensor(e: string){
+    this.sensorDeleteComponent.getStoreNameFromFthr(e);
+  }
+
+  deleteStore(){
+    this.storeDeleteComponent.getStoreNameFromFthr();
+  }
+
+  // Get all from api
+
+
+  private getAllSensors() {
+    this.sensorService.getAll().subscribe((sensors: Array<Sensor>) => {
+      this.sensorsSource = sensors;
     });
   }
 
-  onZoneAdded() {
-    this.loadZones();
-  }
-
-  deleteZone(id: string) {
-    this.zoneService.deleteZone(id).subscribe(() => {
-      this.stores = this.stores.filter(z => z.id !== id);
+  private getAllWastes() {
+    this.wasteService.getAll().subscribe((wastes: Array<Waste>) => {
+      this.wastesSource = wastes;
     });
-  }
-
-  showZoneDetails(zone: Store) {
-    this.selectedZone = zone;
-  }
-
-  closeZoneDetails() {
-    this.selectedZone = null;
-  }
-
-  openAddSensorModal(zone: Store) {
-    this.selectedZone = zone;
-    this.showAddSensorModal = true;
-    this.sensorForm = {
-      id: uuidv4(),
-      numberSensor: (zone.sensor ? zone.sensor.length + 1 : 1),
-      wasteDetected: [],
-      typeSensor: '',
-      sensorUbication: '',
-      status: '',
-      batteryLevel: 0,
-      lastReadingDate: '',
-      unities: '',
-      capacidad: '',
-      nivelActual: '',
-      porcentaje: '',
-      recojo: ''
-    };
-  }
-
-  closeAddSensorModal() {
-    this.showAddSensorModal = false;
-  }
-
-  saveSensor() {
-    if (!this.selectedZone) return;
-    if (!this.selectedZone.sensor) this.selectedZone.sensor = [];
-    this.selectedZone.sensor.push({ ...this.sensorForm });
-    this.zoneService.updateZone(this.selectedZone.id, this.selectedZone).subscribe(() => {
-      this.loadZones();
-      this.showAddSensorModal = false;
-      this.selectedZone = null;
-    });
-  }
-
-  openDeleteSensorModal(zone: Store) {
-    this.selectedZone = zone;
-    this.showDeleteSensorModal = true;
-  }
-
-  closeDeleteSensorModal() {
-    this.showDeleteSensorModal = false;
-    this.selectedZone = null;
-  }
-
-  deleteSensor(sensorId: string) {
-    if (!this.selectedZone) return;
-    this.selectedZone.sensor = this.selectedZone.sensor.filter(s => s.id !== sensorId);
-    this.zoneService.updateZone(this.selectedZone.id, this.selectedZone).subscribe(() => {
-      this.loadZones();
-      this.showDeleteSensorModal = false;
-      this.selectedZone = null;
-    });
-  }
-
-  toggleGraphic() {
-    this.showGraphic = !this.showGraphic;
   }
 }
 

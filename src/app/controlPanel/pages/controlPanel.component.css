@@ -187,7 +187,11 @@ select.sensor-input {
 }
 
 
-
+.delete-icon{
+  position: absolute;
+  cursor: pointer;
+  margin-left: 5px;
+}
 
 
 

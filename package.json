@@ -26,6 +26,7 @@
     "apexcharts": "^3.54.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "file-saver": "^2.0.5",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",

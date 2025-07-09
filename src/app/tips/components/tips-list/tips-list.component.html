@@ -1,0 +1,73 @@
+<section class="tips-list-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ 'sustainableActions.featuredTips' | translate }}</h2>
+    <div class="search-and-filter-bar">
+      <div class="search-input-wrapper">
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" [placeholder]="'sustainableActions.searchPlaceholder' | translate">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="filter-buttons" id="filterButtons">
+        <span class="filter-label">{{ 'sustainableActions.filterBy' | translate }}:</span>
+        <button [class.active]="filterType === ''" (click)="onFilter('')">{{ 'sustainableActions.all' | translate }}</button>
+        <button [class.active]="filterType === 'STORAGE'" (click)="onFilter('STORAGE')">{{ 'sustainableActions.typeStorage' | translate }}</button>
+        <button [class.active]="filterType === 'OPERATIONAL'" (click)="onFilter('OPERATIONAL')">{{ 'sustainableActions.typeOperational' | translate }}</button>
+        <button [class.active]="filterType === 'REGULATION'" (click)="onFilter('REGULATION')">{{ 'sustainableActions.typeRegulation' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-info" *ngIf="filteredActions.length > 0 && (searchTerm || filterType)">
+    <span class="results-count">
+      {{ filteredActions.length }} {{ filteredActions.length === 1 ? ('sustainableActions.result' | translate) : ('sustainableActions.results' | translate) }}
+      {{ 'sustainableActions.found' | translate }}
+    </span>
+  </div>
+
+  <div class="tips-grid" id="tipsGrid">
+    <app-tips-card
+      *ngFor="let action of displayedActions"
+      [action]="action"
+      (toggleFavorite)="toggleFavorite($event)"
+      (delete)="deleteAction($event)">
+    </app-tips-card>
+  </div>
+
+  <div class="empty-state" [class.hidden]="displayedActions.length > 0 || (searchTerm === '' && filterType === '' && actions.length > 0)">
+    <div class="empty-state-content">
+      <div class="empty-state-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M16 16s-1.5-2-4-2-4 2-4 2"></path>
+          <line x1="9" y1="9" x2="9.01" y2="9"></line>
+          <line x1="15" y1="9" x2="15.01" y2="9"></line>
+        </svg>
+      </div>
+      <h3 class="empty-state-title">
+        <ng-container *ngIf="filteredActions.length === 0 && (searchTerm !== '' || filterType !== '')">
+          {{ 'sustainableActions.noMatchingActions' | translate }}
+        </ng-container>
+        <ng-container *ngIf="filteredActions.length === 0 && searchTerm === '' && filterType === '' && actions.length === 0">
+          {{ 'sustainableActions.noActionsYet' | translate }}
+        </ng-container>
+        <ng-container *ngIf="displayedActions.length === 0 && filteredActions.length > 0">
+          {{ 'sustainableActions.noActionsOnPage' | translate }}
+        </ng-container>
+      </h3>
+      <p class="empty-state-description">
+        <ng-container *ngIf="filteredActions.length === 0 && (searchTerm !== '' || filterType !== '')">
+          {{ 'sustainableActions.tryOtherSearchTerms' | translate }}
+        </ng-container>
+        <ng-container *ngIf="filteredActions.length === 0 && searchTerm === '' && filterType === '' && actions.length === 0">
+          {{ 'sustainableActions.startCreatingActions' | translate }}
+        </ng-container>
+      </p>
+    </div>
+  </div>
+
+
+  <div class="pagination-controls" id="paginationControls" [class.hidden]="totalPages <= 1">
+    <button id="prevPageButton" (click)="prevPage()" [disabled]="currentPage === 1">{{ 'sustainableActions.previousPage' | translate }}</button>
+    <span class="pagination-info">{{ 'sustainableActions.pageInfo' | translate:{currentPage: currentPage, totalPages: totalPages} }}</span>
+    <button id="nextPageButton" (click)="nextPage()" [disabled]="currentPage === totalPages">{{ 'sustainableActions.nextPage' | translate }}</button>
+  </div>
+</section>

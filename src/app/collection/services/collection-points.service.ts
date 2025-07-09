@@ -8,7 +8,7 @@ import { CollectionPoint } from '../model/collection-points.entity';
 })
 export class CollectionPointsService {
 
-  private apiUrl = 'https://my-json-server.typicode.com/SoyValzzz/db.clean/collectionPoints';  
+  private apiUrl = 'https://backend-web-applications-production-0747.up.railway.app/api/v1/collection-points';
 
   constructor(private http: HttpClient) {}
 
@@ -16,18 +16,15 @@ export class CollectionPointsService {
     return this.http.get<CollectionPoint[]>(this.apiUrl);
   }
 
-  // Método para agregar un nuevo punto de acopio
   addCollectionPoint(newPoint: CollectionPoint): Observable<CollectionPoint> {
     return this.http.post<CollectionPoint>(this.apiUrl, newPoint);
   }
 
-  // Método para eliminar un punto de acopio
-  deleteCollectionPoint(id: number): Observable<void> {
+  deleteCollectionPoint(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  // Método para actualizar un punto de acopio
-  updateCollectionPoint(id: number, updatedPoint: CollectionPoint): Observable<CollectionPoint> {
+  updateCollectionPoint(id: string, updatedPoint: CollectionPoint): Observable<CollectionPoint> {
     return this.http.put<CollectionPoint>(`${this.apiUrl}/${id}`, updatedPoint);
   }
 }

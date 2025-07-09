@@ -1,0 +1,23 @@
+<div #formDeleteStore class="delete-store-form-container return-to-hide">
+  <form class="delete-store-form">
+    <h4> Delete Store </h4>
+    <br>
+    <div  class="store-list-item-container" >
+      <ul *ngFor="let store of storesSource"  class="store-list-item" >
+        <h6><strong>{{ "controlPanel.num-sensor" | translate }}:</strong> {{store.numberStore}}</h6>
+        <li>{{ "controlPanel.name" | translate }}: {{store.name}}</li>
+        <li>{{ "controlPanel.amount-sensor" | translate }}: {{store.amountSensor}}</li>
+        <li>{{ "controlPanel.ubication" | translate }}: {{store.ubication}}</li>
+      </ul>
+    </div>
+    <mat-icon (click)="cancelDeleteSensor()">close</mat-icon>
+    <h6>{{ "controlPanel.choose-store" | translate }}</h6>
+    <div class="form-group">
+      <label for="num-store">{{ "controlPanel.num-sensor" | translate }}</label>
+      <input id="num-store" type="text" class="store">
+    </div>
+    <br>
+    <button type="button" class="delete-store-button" role="button" (click)="deleteStore()">delete</button>
+    <br>
+  </form>
+</div>

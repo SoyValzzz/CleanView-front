@@ -5,10 +5,10 @@
     <div class="input-group">
       <input
         type="email"
-        [(ngModel)]="email"
-        name="email"
-        required
-        [placeholder]="'login.emailPlaceholder' | translate"
+      [(ngModel)]="email"
+      name="email"
+      [placeholder]="'login.emailPlaceholder' | translate"
+      required
       />
     </div>
 
@@ -17,18 +17,9 @@
         type="password"
         [(ngModel)]="password"
         name="password"
-        required
         [placeholder]="'login.passwordPlaceholder' | translate"
+        required
       />
-    </div>
-
-    <div class="options">
-      <label>
-        <input type="checkbox" /> {{ 'login.rememberMe' | translate }}
-      </label>
-      <a href="#" class="forgot-password">
-        {{ 'login.forgotPassword' | translate }}
-      </a>
     </div>
 
     <button type="submit" class="login-btn">

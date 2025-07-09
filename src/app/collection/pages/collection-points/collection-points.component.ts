@@ -69,7 +69,7 @@ export class CollectionPointsPage implements OnInit {
   applyFilters() {
     this.filteredPoints = this.points.filter(point => {
       const matchesSearch = point.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                          point.materials.some(material => material.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        point.materials.some(material => material.toLowerCase().includes(this.searchTerm.toLowerCase()));
       const matchesFilter = !this.currentFilter || point.materials.includes(this.currentFilter);
       return matchesSearch && matchesFilter;
     });
@@ -116,25 +116,28 @@ export class CollectionPointsPage implements OnInit {
         this.service.addCollectionPoint(newPoint).subscribe({
           next: () => {
             this.points.push(newPoint);
-            this.filteredPoints.push(newPoint);
-            this.updateMapMarkers();
+            this.applyFilters(); // Esto actualizará filteredPoints y mapa
           },
+
           error: (error) => {
             console.error('Error al agregar el punto:', error);
             alert('Hubo un error al agregar el punto de recolección');
           }
         });
+
       }
     });
   }
 
-  onPointDeleted(id: number) {
+  onPointDeleted(id: string) {
     this.points = this.points.filter(point => point.id !== id);
     this.filteredPoints = this.filteredPoints.filter(point => point.id !== id);
     this.updateMapMarkers();
   }
 
-  private generateId(): number {
-    return Math.max(0, ...this.points.map(p => p.id)) + 1;
+
+  private generateId(): string {
+    return (Math.max(0, ...this.points.map(p => Number(p.id))) + 1).toString();
   }
+
 }
