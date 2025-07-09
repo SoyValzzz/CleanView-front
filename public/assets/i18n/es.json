@@ -74,6 +74,7 @@
 
   
   "sustainableActions": {
+    "addActionButton": "Agregar nueva acción sostenible",
     "title": "Reducir el impacto ambiental también es una estrategia empresarial inteligente.",
     "featuredTips": "Tips destacados del mes",
     "addTitle": "Agregar Acción Sostenible",
@@ -132,6 +133,7 @@
   },
   "auth": {
     "signIn": "Iniciar sesión",
-    "signUp": "Registrarse"
+    "signUp": "Registrarse",
+    "logout": "Cerrar sesión"
   }
 }
