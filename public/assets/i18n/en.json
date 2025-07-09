@@ -75,9 +75,26 @@
   "date": "Date",
 
   "sustainableActions": {
+     "heroTitle": "Sustainable actions for a better future",
+    "heroSubtitle": "Join our mission to protect the planet through innovation and responsibility"
     "title": "Reducing environmental impact is also a smart business strategy.",
     "featuredTips": "Featured Tips of the Month",
-    "addTitle": "Add Sustainable Action",
+    "tittle.Label": "Add Sustainable Action",
+     "descriptionLabel": "Description",
+    "categoryLabel": "Category"
+      "filterBy": "Filter by",
+    "favorited": "Favorited",
+    "confirmDeletionTitle": "Confirm deletion",
+    "confirmDeletionMessage": "Are you sure you want to delete this sustainable action?",
+    "confirmDeletionSubmessage": "This action cannot be undone.",
+    "cancelButton": "Cancel",
+    "deleteActionButton": "Delete",
+    "result": {
+      "found": "{{count}} result found",
+      "found_plural": "{{count}} results found"
+    },
+    "noMatchingActions": "No matching sustainable actions found.",
+    "tryOtherSearchTerms": "Try using different search terms."
     "titlePlaceholder": "Title",
     "descriptionPlaceholder": "Description",
     "selectType": "Select Type",
