@@ -72,6 +72,7 @@
   "kg": "Kg",
   "date": "Fecha",
 
+  {
   "sustainableActions": {
     "title": "Reducir el impacto ambiental también es una estrategia empresarial inteligente.",
     "featuredTips": "Tips destacados del mes",
@@ -85,8 +86,28 @@
     "saveButton": "Guardar",
     "all": "Todos",
     "searchPlaceholder": "Buscar acciones sostenibles",
-    "delete": "Eliminar"
-  },
+    "delete": "Eliminar",
+    
+    "heroTitle": "Acciones sostenibles para un futuro mejor",
+    "heroSubtitle": "Únete a nuestra misión de proteger el planeta mediante la innovación y la responsabilidad",
+    "descriptionLabel": "Descripción",
+    "categoryLabel": "Categoría",
+    "filterBy": "Filtrar por",
+    "favorited": "Marcado como favorito",
+    "confirmDeletionTitle": "Confirmar eliminación",
+    "confirmDeletionMessage": "¿Estás seguro de que deseas eliminar esta acción sostenible?",
+    "confirmDeletionSubmessage": "Esta acción no se puede deshacer.",
+    "cancelButton": "Cancelar",
+    "deleteActionButton": "Eliminar",
+    "result": {
+      "found": "{{count}} resultado encontrado",
+      "found_plural": "{{count}} resultados encontrados"
+    },
+    "noMatchingActions": "No se encontraron acciones sostenibles que coincidan.",
+    "tryOtherSearchTerms": "Intenta usar otros términos de búsqueda."
+  }
+},
+
   "login": {
     "title": "Iniciar Sesión",
     "emailPlaceholder": "Correo electrónico",
