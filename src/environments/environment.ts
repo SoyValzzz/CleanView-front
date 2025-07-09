@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  serverBasePath: "http://localhost:3000/api/v1",
-  apiBaseUrl: 'http://localhost:8080/api/v1',
+  serverBasePath: "https://backend-web-applications-production-0747.up.railway.app/api/v1",
+  apiBaseUrl: 'https://backend-web-applications-production-0747.up.railway.app/api/v1',
   zoneEndPointPath: "/zones",
   wasteEndPointPath: "/wastes",
   sensorEndPointPath: "/sensors",
-  actionEndPointPath: "/actions",
+  actionEndPointPath: "/actions"
 };
