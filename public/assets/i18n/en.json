@@ -75,6 +75,7 @@
   "date": "Date",
 
  "sustainableActions": {
+   "addActionButton": "Add New Sustainable Action",
     "title": "Reducing environmental impact is also a smart business strategy.",
     "featuredTips": "Featured tips of the month",
     "addTitle": "Add Sustainable Action",
@@ -131,7 +132,8 @@
   },
   "auth": {
     "signIn": "Sign In",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "logout": "Log Out"
   }
 
 }
