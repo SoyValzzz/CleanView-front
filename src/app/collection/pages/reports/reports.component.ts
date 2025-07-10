@@ -97,29 +97,13 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.storeService.getAll().subscribe((zones: Store[]) => {
-      this.rows = [];
-      zones.forEach(zone => {
-        if (zone.sensorIds && zone.sensorIds.length > 0) {
-          zone.sensorIds.forEach(sensor => {
-            // Si hay varios tipos de residuo por sensor, puedes adaptar esto
-            this.sensorsSource.forEach(sensorAux => {
-              if (sensorAux.id === sensor){
-                this.rows.push({
-                  zona: zone.name,
-                  kg: (sensorAux.currentCapacity ? sensorAux.currentCapacity + ' kg' : '-'),
-                  tipo: '',
-                  fecha: '',
-                  mes: '',
-                  anio: ''
-                });
-              }
-            })
-          });
-        }
-      });
+    this.storeService.stores$.subscribe((zones: Store[]) => {
+      this.storesSource = zones;
+      this.updateRows();
+      if (!zones || zones.length === 0) {
+        this.storeService.loadStores();
+      }
     });
-
     this.getAllSensors();
     this.getAllWastes();
   }
@@ -196,12 +180,39 @@ export class ReportsComponent implements OnInit {
   private getAllSensors() {
     this.sensorService.getAll().subscribe((sensors: Array<Sensor>) => {
       this.sensorsSource = sensors;
+      this.updateRows();
     });
   }
 
   private getAllWastes() {
     this.wasteService.getAll().subscribe((wastes: Array<Waste>) => {
       this.wastesSource = wastes;
+    });
+  }
+
+  private updateRows() {
+    if (!this.storesSource.length || !this.sensorsSource.length) {
+      this.rows = [];
+      return;
+    }
+    this.rows = [];
+    this.storesSource.forEach(zone => {
+      if (zone.sensorIds && zone.sensorIds.length > 0) {
+        zone.sensorIds.forEach(sensorId => {
+          this.sensorsSource.forEach(sensorAux => {
+            if (sensorAux.id === sensorId) {
+              this.rows.push({
+                zona: zone.name,
+                kg: (sensorAux.currentCapacity ? sensorAux.currentCapacity + ' kg' : '-'),
+                tipo: '',
+                fecha: '',
+                mes: '',
+                anio: ''
+              });
+            }
+          });
+        });
+      }
     });
   }
 }
